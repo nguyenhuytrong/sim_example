@@ -1,0 +1,25 @@
+services:
+  ros2-workspace:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        USERNAME: ros
+        USER_UID: 1000
+        USER_GID: 1000
+    container_name: ros2-urdf-dev
+    image: ros2-urdf-workspace:latest
+    network_mode: host
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ./src:/home/ros/dev_ws/src:rw
+      - ./build:/home/ros/dev_ws/build:rw
+      - ./install:/home/ros/dev_ws/install:rw
+      - ./log:/home/ros/dev_ws/log:rw
+    stdin_open: true
+    tty: true
+    privileged: true
+    user: ros
